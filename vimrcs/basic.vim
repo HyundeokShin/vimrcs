@@ -61,8 +61,6 @@ set sts=4
 set noet
 set smarttab         
 set lbr              
-set ai
-set si
 set wrap
 set wmnu
 set cmdheight=2   
