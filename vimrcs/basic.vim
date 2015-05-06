@@ -13,6 +13,10 @@
 "{{{
 "source $VIMRUNTIME/mswin.vim
 "behave mswin
+set textwidth=80
+set wrapmargin=2
+set linebreak
+set formatoptions=tc
 setglobal spell spelllang=en_us
 set nospell
 set clipboard=unnamed 
@@ -61,6 +65,7 @@ set sts=4
 set noet
 set smarttab         
 set lbr              
+set si
 set wrap
 set wmnu
 set cmdheight=2   
@@ -121,7 +126,7 @@ au BufReadPost *
 "{{{
 if has("gui_running")
  winp 532 32
- set lines=68
+ set lines=80
  set co=120
  set guioptions=amt
  set go-=l

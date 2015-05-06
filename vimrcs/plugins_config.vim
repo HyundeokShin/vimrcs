@@ -213,7 +213,16 @@ set shell=bash\ -i
 "endif
  
 let g:Tex_DefaultTargetFormat = 'pdf'
-let g:Tex_MultipleCompileFormats='pdf, aux'
+let g:Tex_MultipleCompileFormats='pdf,aux,pdf'
+let g:Tex_BibtexFlavor = 'bibtex'
+
+"let g:Tex_DefaultTargetFormat = 'pdf'
+"let g:Tex_MultipleCompileFormats='pdf,bbl,pdf'
+"let g:Tex_BibtexFlavor = 'biber'
+"let g:Tex_CompileRule_pdf = 'arara -v $*'
+"let g:Tex_CompileRule_bib = 'biber $*'
+
+"let bibFileName = '.bcf'
 "au BufWritePost *.tex silent call Tex_RunLaTeX()
 "au BufWritePost *.tex silent !pkill -USR1 xdvi.bin
 " REQUIRED. This makes vim invoke Latex-Suite when you open a tex file.
@@ -235,7 +244,16 @@ set grepprg=grep\ -nH\ $*
 """ 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
 """ The following changes the default filetype back to 'tex':
 let g:tex_flavor='latex'
-let g:Tex_CompileRule_pdf='xelatex --interaction=nonstopmode $*'
+let g:Tex_CompileRule_pdf = 'xelatex -aux-directory=F:/Vim/my_latex_doc/temp --synctex=-1 -src-specials -interaction=nonstopmode $*'
+function CompileXeTex()
+    let oldCompileRule=g:Tex_CompileRule_pdf
+    let g:Tex_CompileRule_pdf = 'pdflatex -aux-directory=F:/Vim/my_latex_doc/temp --synctex=-1 -src-specials -interaction=nonstopmode $*'
+    call Tex_RunLaTeX()
+    let g:Tex_CompileRule_pdf=oldCompileRule
+endfunction
+map <Leader>lx :<C-U>call CompileXeTex()<CR>
+let g:Tex_UseMakefile = 0
+"let g:Tex_CompileRule_pdf = "make"
 "
 "" this is mostly a matter of taste. but LaTeX looks good with just a bit
 "" of indentation.
