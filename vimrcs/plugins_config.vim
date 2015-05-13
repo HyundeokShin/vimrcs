@@ -1,9 +1,12 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Important: 
 "       This requries that you install https://github.com/amix/vimrc !
-"  tst
+"  
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+""""""""""""""""""""""""""""""
+" =>vim-makrdown
+""""""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""
 " => Load pathogen paths
@@ -158,36 +161,51 @@ set shell=bash\ -i
 " =>  vimlatex
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "{{{
-"function! SetupLatex(arg)
-"    if a:arg == 'pdf'
-"        let a:targetformat = 'pdf'
-"    elseif a:arg == 'dvi'
-"        let a:targetformat = 'dvi'
-"    elseif a:arg == ''
-"        if g:Tex_DefaultTargetFormat == 'dvi'
-"            let a:targetformat = 'pdf'
-"        else
-"            let a:targetformat = 'dvi'
-"        endif
-"    endif
+function! SetupLatex(arg)
+if a:arg == 'pdf'
+let a:targetformat = 'pdf'
+elseif a:arg == 'dvi'
+let a:targetformat = 'dvi'
+elseif a:arg == ''
+if g:Tex_DefaultTargetFormat == 'dvi'
+let a:targetformat = 'pdf'
+else
+let a:targetformat = 'dvi'
+endif
+endif
  
-"    if a:targetformat == 'dvi'
-        " target for latex
-"        let g:Tex_DefaultTargetFormat = 'dvi'
-        " inverse search -- start gvim as "gvim --servername xdvi"
-        "let g:Tex_CompileRule_dvi = 'latex --src -interaction nonstopmode $*'
-        "let g:Tex_CompileRule_dvi = 'latex --src -interaction nonstopmode $*; if pgrep -fx "xdvi.bin -name xdvi -editor gvim --servername vim --remote +%l %f $*"; then wmctrl -a "xdvik:  $*"; fi;'
-"        let g:Tex_CompileRule_dvi = 'latex --src -interaction nonstopmode $*; if pgrep "xdvi.bin"; then wmctrl -a "xdvik:"; fi;'
-"        let g:Tex_ViewRule_dvi = 'xdvi -editor "gvim --servername vim --remote +\%l \%f" -watchfile 1 $* &'
-"        map \ld :execute '!xdvi -editor "gvim --servername '.v:servername.' --remote +\%l \%f" -sourceposition '.line(".").':'.col(".").expand("%").' '.expand(Tex_GetMainFileName(':r')).'.dvi >/dev/null&'<CR><CR>
-"    else " pdf
-"        let g:Tex_DefaultTargetFormat = 'pdf'
-"        let g:Tex_CompileRule_pdf = 'pdflatex -interaction nonstopmode $*; if pgrep -fx "xpdf -remote vimlatex $*.pdf"; then xpdf -remote vimlatex -reload && wmctrl -a "Xpdf: $*.pdf"; fi;'
-        "let g:Tex_CompileRule_pdf = 'pdflatex -interaction nonstopmode $*; if pgrep -fx "xpdf -remote vimlatex $*.pdf"; then xpdf -remote vimlatex -reload -raise; fi;'
-"        let g:Tex_CompileRule_pdf = 'pdflatex -interaction nonstopmode $*; if pgrep -fx "xpdf -remote vimlatex $*.pdf"; then xpdf -remote vimlatex -reload && wmctrl -a "Xpdf: $*.pdf"; fi;'
-"        let g:Tex_ViewRule_pdf = 'xpdf -remote vimlatex'
-"    endif
-"endfunction
+if a:targetformat == 'dvi'
+         target for latex
+let g:Tex_DefaultTargetFormat = 'dvi'
+         inverse search -- start gvim as "gvim --servername xdvi"
+let g:Tex_CompileRule_dvi = 'latex --src -interaction nonstopmode $*'
+let g:Tex_CompileRule_dvi = 'latex --src -interaction nonstopmode $*;
+if pgrep -fx "xdvi.bin -name xdvi -editor gvim --servername vim --remote +%l
+%f $*"; then wmctrl -a "xdvik:  $*"; fi;'
+let g:Tex_CompileRule_dvi = 'latex --src -interaction nonstopmode $*;
+
+if pgrep "xdvi.bin"; then wmctrl -a "xdvik:"; fi;'
+
+let g:Tex_ViewRule_dvi = 'xdvi -editor "gvim --servername vim --remote
++\%l \%f" -watchfile 1 $* &'
+        map \ld :execute '!xdvi -editor "gvim --servername '.v:servername.'
+--remote +\%l \%f" -sourceposition '.line(".").':'.col(".").expand("%").'
+'.expand(Tex_GetMainFileName(':r')).'.dvi >/dev/null&'<CR><CR>
+
+    else " pdf
+let g:Tex_DefaultTargetFormat = 'pdf'
+let g:Tex_CompileRule_pdf = 'pdflatex -interaction nonstopmode $*; if
+pgrep -fx "xpdf -remote vimlatex $*.pdf"; then xpdf -remote vimlatex -reload
+&& wmctrl -a "Xpdf: $*.pdf"; fi;'
+let g:Tex_CompileRule_pdf = 'pdflatex -interaction nonstopmode $*; if
+pgrep -fx "xpdf -remote vimlatex $*.pdf"; then xpdf -remote vimlatex -reload
+-raise; fi;'
+let g:Tex_CompileRule_pdf = 'pdflatex -interaction nonstopmode $*; if
+pgrep -fx "xpdf -remote vimlatex $*.pdf"; then xpdf -remote vimlatex -reload
+&& wmctrl -a "Xpdf: $*.pdf"; fi;'
+let g:Tex_ViewRule_pdf = 'xpdf -remote vimlatex'
+    endif
+endfunction
  
 "if exists("myTeXtarget")
 "    :call SetupLatex(myTeXtarget)

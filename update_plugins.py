@@ -8,6 +8,7 @@ from os import path
 
 #--- Globals ----------------------------------------------
 PLUGINS = """
+vim-markdown https://github.com/plasticboy/vim-markdown
 ack.vim https://github.com/mileszs/ack.vim
 atp_vim https://github.com/coot/atp_vim
 bufexplorer https://github.com/corntrace/bufexplorer
@@ -36,7 +37,6 @@ vim-indent-object https://github.com/michaeljsmith/vim-indent-object
 vim-instant-markdown https://github.com/suan/vim-instant-markdown
 vim-latex-live-preview https://github.com/xuhdev/vim-latex-live-preview
 vim-less https://github.com/groenewege/vim-less
-vim-markdown https://github.com/tpope/vim-markdown
 vim-multiple-cursors https://github.com/terryma/vim-multiple-cursors
 vim-pandoc https://github.com/vim-pandoc/vim-pandoc
 vim-pyte https://github.com/therubymug/vim-pyte

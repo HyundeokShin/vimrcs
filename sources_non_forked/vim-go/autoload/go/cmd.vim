@@ -2,6 +2,10 @@ if !exists("g:go_jump_to_error")
     let g:go_jump_to_error = 1
 endif
 
+if !exists("g:go_dispatch_enabled")
+    let g:go_dispatch_enabled = 0
+endif
+
 function! go#cmd#Run(bang, ...)
     let goFiles = '"' . join(go#tool#Files(), '" "') . '"'
 
@@ -23,7 +27,11 @@ function! go#cmd#Run(bang, ...)
         let &makeprg = "go run " . expand(a:1)
     endif
 
-    exe 'make!'
+    if g:go_dispatch_enabled && exists(':Make') == 2
+        silent! exe 'Make!'
+    else
+        exe 'make!'
+    endif
     if !a:bang
         cwindow
         let errors = getqflist()
@@ -44,6 +52,12 @@ function! go#cmd#Install(...)
     if v:shell_error
         call go#tool#ShowErrors(out)
         cwindow
+        let errors = getqflist()
+        if !empty(errors)
+            if g:go_jump_to_error
+                cc 1 "jump to first error if there is any
+            endif
+        endif
         return
     endif
 
@@ -64,7 +78,11 @@ function! go#cmd#Build(bang, ...)
     endif
 
     echon "vim-go: " | echohl Identifier | echon "building ..."| echohl None
-    silent! exe 'make!'
+    if g:go_dispatch_enabled && exists(':Make') == 2
+        silent! exe 'Make'
+    else
+        silent! exe 'make!'
+    endif
     redraw!
     if !a:bang
         cwindow
@@ -153,7 +171,7 @@ function! go#cmd#TestFunc(...)
         let a1 = a:1
 
         " add extra space
-        let flag = " " . flag 
+        let flag = " " . flag
     endif
 
     call go#cmd#Test(0, a1, flag)
